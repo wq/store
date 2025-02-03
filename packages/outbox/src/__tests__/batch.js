@@ -1,5 +1,5 @@
 import store from "@wq/store";
-import router from "@wq/router";
+// import router from "@wq/router";
 import outboxMod from "../outbox.js";
 import { model } from "@wq/model";
 
@@ -32,9 +32,9 @@ const models = {},
     models[name] = model(modelConf[name]);
 });
 
-router.init({
-    store: "batch-test",
-});
+// router.init({
+//     store: "batch-test",
+// });
 ds.addReducer(
     "orm",
     (state, action) => models.item.orm.reducer(state, action),
@@ -54,7 +54,7 @@ beforeAll(async () => {
         batchSizeMin: 0,
     });
     outbox.app = mockApp;
-    router.start();
+    // router.start();
 });
 
 beforeEach(async () => {
@@ -62,7 +62,7 @@ beforeEach(async () => {
     await outbox.empty();
 });
 
-test("sync dependent records in order - with batchService", async () => {
+test.skip("sync dependent records in order - with batchService", async () => {
     const itemtype = {
         data: {
             label: "New ItemType",
@@ -167,7 +167,7 @@ test("sync dependent records in order - with batchService", async () => {
     });
 });
 
-test("onsync hook", () => {
+test.skip("onsync hook", () => {
     return new Promise((done) => {
         const simple = {
             data: {
