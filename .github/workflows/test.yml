@@ -14,19 +14,9 @@ jobs:
         python-version: ["3.10"]
         node-version: [18]
         package:
-          - app
           - model
           - outbox
-          - router
           - store
-          - react
-          - material
-          - material-web
-          - material-native
-          - map
-          - map-gl
-          - map-gl-web
-          - map-gl-native
     steps:
     - uses: actions/checkout@v2
       with:
@@ -46,12 +36,6 @@ jobs:
       run: cd packages/$PACKAGE && npm ci
     - name: Lint with ESLint
       run: npm run lint
-    - name: Check ESM Imports
-      run: |
-         echo 'export default "0.0.0";' > version.js
-         sed -i "s/@mui\/material\/utils\/index.js/@mui\/material\/node\/utils\/index.js/" modules.js
-         node index.js
-         git checkout modules.js
     - name: Start test server
       run: python -m tests.server &
     - name: Test with Jest
@@ -73,34 +57,3 @@ jobs:
          cp .npmrc packages/$PACKAGE/.npmrc  # for native builds
          cd packages/$PACKAGE
          npm publish
-  pip:
-    name: Python Package
-    runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        python-version: ["3.11"]
-        node-version: [18]
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Set up Node ${{ matrix.python-node }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install build
-    - name: Build Python Wheel
-      run: |
-        python -m build
-        python -m pip install `ls dist/*.whl`
-    - uses: actions/upload-artifact@v3
-      with:
-        name: wq.app
-        path: dist/*.whl
