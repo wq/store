@@ -8,6 +8,7 @@ import {
 import logger from "redux-logger";
 import { persistStore, persistReducer, createTransform } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2.js";
+import { registerPlugin, applyPlugins, initPlugins } from "./plugins.js";
 
 const REMOVE = "@@KVP_REMOVE";
 const SET = "@@KVP_SET";
@@ -26,6 +27,8 @@ class Store {
             throw name + " store already exists!";
         }
         this.name = name;
+        this.plugins = {};
+
         _stores[name] = this;
 
         this.debug = false;
@@ -62,11 +65,16 @@ class Store {
         );
     }
 
+    use(plugin) {
+        registerPlugin(this, plugin);
+    }
+
     setEngine({ createStorage, serialize, deserialize }) {
         this.engine = { createStorage, serialize, deserialize };
     }
 
     init(opts = {}) {
+        applyPlugins(this, opts);
         var self = this;
         var optlist = [
             "debug",
@@ -132,6 +140,10 @@ class Store {
             this._store.subscribe(fn)
         );
         this._deferActions.forEach(this._store.dispatch);
+
+        return this.ready.then(() => {
+            return initPlugins(this, opts);
+        });
     }
 
     dispatch(action) {
