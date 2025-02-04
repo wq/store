@@ -27,9 +27,15 @@
     },
     "homepage": "https://wq.io/@wq/store",
     "dependencies": {
+        "@wq/react": "^3.0.0-a1-dev1.g760eb56",
         "localforage": "^1.10.0",
         "redux": "^4.2.1",
         "redux-logger": "^3.0.6",
         "redux-persist": "^6.0.0"
+    },
+    "devDependencies": {
+        "@testing-library/react": "^16.2.0",
+        "react": "^19.0.0",
+        "react-redux": "^9.2.0"
     }
 }
