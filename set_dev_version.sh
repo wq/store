@@ -7,4 +7,7 @@ VERSION=`python3 -m setuptools_scm | \
         sed "s/^\([0-9]\+\.[0-9]\+\.[0-9]\+\)\(.\+\)/\1-\2/" | \
         sed "s/--/-/g"`
 sed -i "s/\"version\": .*/\"version\": \"$VERSION\",/" packages/*/package.json
-sed -i "s/\"@wq\/\(.\+\)\": \".\+\"/\"@wq\/\1\": \"\^$VERSION\"/" packages/*/package.json
+for PKG in packages/*; do
+    PKG_NAME=`basename $PKG`
+    sed -i "s/\"@wq\/$PKG_NAME\": \".\+\"/\"@wq\/$PKG_NAME\": \"\^$VERSION\"/" packages/*/package.json
+done
