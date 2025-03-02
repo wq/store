@@ -3,7 +3,7 @@
     "version": "2.1.0",
     "description": "A simple model API for working with stored lists",
     "type": "module",
-    "main": "index.js",
+    "main": "src/index.js",
     "scripts": {
         "test": "cd ../../ && npm run jest packages/outbox",
         "prettier": "cd ../../ && npm run prettier -- --write packages/outbox/",

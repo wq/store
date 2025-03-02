@@ -1,11 +1,13 @@
 import { Model, model as createModel, getRootFields } from "./model.js";
+import { Root } from "./Root.js";
+import { useModelInstance, useModel, useModelConfig } from "./hooks.js";
 
 const orm = {
     // Plugin attributes
     name: "orm",
     type: "orm",
-    init() {
-        for (const conf of Object.values(this.app.config.pages)) {
+    init(config) {
+        for (const conf of Object.values(config?.pages || [])) {
             if (!conf.list) {
                 continue;
             }
@@ -15,9 +17,6 @@ const orm = {
                 this._orm = model.orm;
             }
         }
-        this.app.models = this.models;
-        this.app.prefetchAll = (message) => this.prefetchAll(message);
-        this.app.resetAll = () => this.reset();
     },
     actions: {
         reset() {
@@ -34,20 +33,23 @@ const orm = {
 
     // Custom attributes
     models: {},
-    async prefetchAll(message) {
-        if (message) {
-            this.app.spin.start(message);
-        }
+    async prefetchAll() {
         const result = await Promise.all(
             Object.values(this.models).map((model) => model.prefetch())
         );
-        if (message) {
-            this.app.spin.stop(message);
-        }
         return result;
     },
 };
 
 export default orm;
 
-export { Model, createModel, createModel as model, getRootFields };
+export {
+    Model,
+    createModel,
+    createModel as model,
+    getRootFields,
+    Root,
+    useModelInstance,
+    useModel,
+    useModelConfig,
+};
