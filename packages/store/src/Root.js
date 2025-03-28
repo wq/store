@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { createElement, useEffect, useState } from "react";
 import { useConfig, withWQ } from "@wq/react";
 import { Provider as ReduxProvider } from "react-redux";
 import store from "./store.js";
@@ -30,10 +30,10 @@ function Root({ store: instance = store, children }) {
         return null;
     }
 
-    return (
-        <StoreContext.Provider value={instance}>
-            <ReduxProvider store={instance._store}>{children}</ReduxProvider>
-        </StoreContext.Provider>
+    return createElement(
+        StoreContext.Provider,
+        { value: instance },
+        createElement(ReduxProvider, { store: instance._store }, children)
     );
 }
 

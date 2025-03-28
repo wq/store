@@ -1163,6 +1163,7 @@ export function mergeErrors(errors, newErrors) {
 }
 
 var outbox = new Outbox(ds);
+outbox.name = "outbox";
 
 function getOutbox(store) {
     if (_outboxes[store.name]) {

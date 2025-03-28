@@ -12,6 +12,8 @@ export function useModelInstance(name) {
     if (!model) {
         throw new Error(`Unknown model name ${name}`);
     }
+
+    return model;
 }
 
 // Extracted from @wq/react/src/hooks.js

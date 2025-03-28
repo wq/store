@@ -222,7 +222,7 @@ export function useUnsynced(modelNameOrConf) {
         {
             outbox: { filterUnsynced },
             orm: { models },
-        } = useStore().plugin,
+        } = useStore().plugins,
         modelConf =
             typeof modelNameOrConf === "string"
                 ? models[modelNameOrConf].config
@@ -234,7 +234,7 @@ export function useUnsynced(modelNameOrConf) {
 
 export function useList(name, contextList) {
     const modelConf = useModelConfig(name),
-        modelList = useModel(modelConf.page),
+        modelList = useModel(name),
         unsynced = useUnsynced(modelConf);
 
     return useMemo(() => {

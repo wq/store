@@ -1,12 +1,12 @@
 import { Model, model as createModel, getRootFields } from "./model.js";
-import { Root } from "./Root.js";
+import Root from "./Root.js";
 import { useModelInstance, useModel, useModelConfig } from "./hooks.js";
 
 const orm = {
     // Plugin attributes
     name: "orm",
     type: "orm",
-    init(config) {
+    createModels(config) {
         for (const conf of Object.values(config?.pages || [])) {
             if (!conf.list) {
                 continue;
