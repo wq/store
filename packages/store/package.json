@@ -1,6 +1,6 @@
 {
     "name": "@wq/store",
-    "version": "2.0.0",
+    "version": "3.0.0-alpha.0",
     "description": "Locally-persistent, optionally server-populated JSON datastore(s)",
     "type": "module",
     "main": "src/index.js",
@@ -27,7 +27,7 @@
     },
     "homepage": "https://wq.io/@wq/store",
     "dependencies": {
-        "@wq/react": "^3.0.0-a1-dev1.g760eb56"
+        "@wq/react": "^3.0.0-alpha.0"
     },
     "peerDependencies": {
         "localforage": "*",
